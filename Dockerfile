@@ -63,13 +63,13 @@ CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 1 && chgrp
 
 FROM base AS with-fmt
 RUN apk add --no-cache py3-markdown py3-docutils groff
-RUN echo -e 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n' >> /etc/cgitrc.default
+RUN echo -ne 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n' >> /etc/cgitrc.default
 
 FROM with-fmt AS with-highlighting
 RUN apk add --no-cache highlight
 ADD image/syntax-highlighting.sh /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
 RUN chmod +x /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
-RUN echo 'source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh' >> /etc/cgitrc.default
+RUN echo -ne 'source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh\n' >> /etc/cgitrc.default
 
 FROM with-highlighting AS full
 # with nice userland aswell
