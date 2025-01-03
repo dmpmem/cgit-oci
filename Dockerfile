@@ -63,17 +63,22 @@ CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 3 && chgrp
 
 FROM base AS with-fmt
 RUN apk add --no-cache py3-markdown py3-docutils groff
-RUN echo -e 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n\
-readme=:README.rst\n\
-readme=:readme.rst\n\
-readme=:README.md\n\
-readme=:readme.md\n\
-readme=:README\n\
-readme=:readme\n\
-' >> /etc/cgitrc.default
+RUN echo -e 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n' >> /etc/cgitrc.default
 
 FROM with-fmt AS with-highlighting
 RUN apk add --no-cache highlight
 ADD image/syntax-highlighting.sh /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
 RUN chmod +x /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
 RUN echo 'source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh' >> /etc/cgitrc.default
+
+FROM with-highlighting AS full
+# with nice userland aswell
+RUN apk add --no-cache curl zsh-fast-syntax-highlighting
+RUN sed -i 's|/bin/ash|/bin/zsh|g' /etc/passwd
+RUN (git clone https://git.estrogen.zone/zuwu.git/ /tmp/zuwu || git clone https://github.com/dmpmem/zuwu.git /tmp/zuwu) && \
+    cd /tmp/zuwu && \
+    ./install.zsh && \
+    /usr/local/share/zsh/plugins/zuwu/setup.zsh && \
+    sudo -u git /usr/local/share/zsh/plugins/zuwu/setup.zsh && \
+    cd ~ && \
+    rm -rf /tmp/zuwu
