@@ -2,6 +2,7 @@ services:
   cgit:
     image: docker.io/memdmp/cgit:local-build
     build:
+      context: .
       dockerfile: ./Dockerfile
     volumes:
       - cgit_ssh:/etc/ssh:rw
