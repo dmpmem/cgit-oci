@@ -59,7 +59,7 @@ EXPOSE 80
 EXPOSE 22
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 3 && chgrp www-data /run/fcgiwrap/fcgiwrap.sock && chmod g+w /run/fcgiwrap/fcgiwrap.sock && exec sudo -u http /usr/sbin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile' & /usr/local/bin/fcgiwrap-launcher"]
+CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 1 && chgrp www-data /run/fcgiwrap/fcgiwrap.sock && chmod g+w /run/fcgiwrap/fcgiwrap.sock && exec sudo -u http /usr/sbin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile' & /usr/local/bin/fcgiwrap-launcher"]
 
 FROM base AS with-fmt
 RUN apk add --no-cache py3-markdown py3-docutils groff
