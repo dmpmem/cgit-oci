@@ -2,7 +2,7 @@ FROM docker.io/alpine:latest AS base
 
 WORKDIR /root
 
-# Packages we'll keep
+# Funny lil packages
 RUN apk upgrade --no-cache && \
     apk add --no-cache \
             git openssh \
