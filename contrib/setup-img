@@ -1,0 +1,38 @@
+#!/bin/zsh
+set -eax
+
+__filename="$(realpath "$0")"
+__dirname="$(dirname "${__filename})"
+if [[ -f "$__dirname/.env" ]]; then
+  source "$__dirname/.env"
+fi
+
+IMG="${IMG:-"docker.io/memdmp/cgit:${TAG:-"local-build"}"}"
+SSH_DIR="${SSH_DIR:-"$HOME/.ssh"}"
+SSH_KEY="${SSH_KEY:-"$(ls "$SSH_DIR/id_*.pub" | head -n 1)"}"
+if [[ -f "$SSH_KEY" ]]; then
+  SSH_KEY="$(cat "$SSH_KEY")"
+elif [[ -f "$SSH_DIR/$SSH_KEY.pub" ]]; then
+  SSH_KEY="$(cat "$SSH_DIR/$SSH_KEY.pub")"
+elif [[ -f "$SSH_DIR/id_$SSH_KEY.pub" ]]; then
+  SSH_KEY="$(cat "$SSH_DIR/id_$SSH_KEY.pub")"
+elif [[ -f "$SSH_DIR/$SSH_KEY" ]]; then
+  SSH_KEY="$(cat "$SSH_DIR/$SSH_KEY")"
+elif [[ -f "$SSH_DIR/id_$SSH_KEY" ]]; then
+  SSH_KEY="$(cat "$SSH_DIR/id_$SSH_KEY")"
+fi
+
+mkdir -p cgit/{ssh,git}
+! podman container exists cgit >/dev/null 2>/dev/null || podman container rm cgit
+! podman network exists cgit >/dev/null 2>/dev/null || podman network rm cgit
+podman network create cgit
+podman create \
+  --name cgit \
+  --network cgit \
+  -v "$(pwd)/cgit/ssh:/etc/ssh:rw" \
+  -v "$(pwd)/cgit/git:/var/lib/git:rw" \
+  -p 127.0.0.1:18080:80 \
+  -p 127.0.0.1:12222:22 \
+  -e "SSH_KEY=${SSH_KEY}" \
+  "$IMG" "$@"
+podman start -ia cgit

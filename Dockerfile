@@ -1,92 +1,79 @@
-FROM httpd:2.4-alpine
-
-MAINTAINER Grégory J. <gregjbs@protonmail.com>
-
-WORKDIR /root
-
-ARG HTTP_PROXY
+FROM docker.io/alpine:latest AS base
 
 WORKDIR /root
 
 # Packages we'll keep
-RUN apk update && apk add git openssh && \  
-    apk add python3 py3-pygments && \
-    apk add py3-markdown && \
-    apk add libintl musl-libintl && \
-    apk add zlib
+RUN apk upgrade --no-cache && \
+    apk add --no-cache \
+            git openssh \
+            python3 py3-pygments \
+            py3-markdown \
+            libintl musl-libintl \
+            zlib \
+            caddy \
+            cgit gitolite \
+            openssl \
+            dumb-init \
+            fcgiwrap \
+            sudo zsh openrc \
+            libcap
 
-# cgit install
-RUN git clone git://git.zx2c4.com/cgit
-WORKDIR cgit
-# Packages needed for build
-RUN apk update && apk add gcc make libressl-dev  && \  
-    apk add linux-headers && \
-    ln -sf /usr/include/linux/unistd.h /usr/include/ && \
-    apk add musl-dev zlib-dev && \
-# Build
-    git submodule init && \
-    git submodule update && \
-    make install NO_LUA=1 NO_REGEX=NeedsStartEnd && \
-# Clean up
-    cd ../ && \
-    rm -Rf cgit && \
-    apk del gcc make libressl-dev && \
-    apk del linux-headers musl-dev zlib-dev && \
-    rm  -rf /tmp/* /var/cache/apk/*
-WORKDIR /root
-
-# cgit config
-ENV HTTP_AUTH_USER="", HTTP_AUTH_PASSWORD=""
-ADD httpd.conf /usr/local/apache2/conf/httpd.conf
-ADD cgitrc /home/git/cgitrc
-# Extra copy if /home/git is bindmounted
-ADD cgitrc /etc/cgitrc.default
-RUN ln -s /home/git/cgitrc /etc/cgitrc
-
-# Gitolite install
-# Clone
-RUN git clone https://github.com/sitaramc/gitolite && \
-    gitolite/install -to /usr/local/bin/
-
-# Default work dir for base image httpd
-WORKDIR /usr/local/apache2
-
-# Pre-launch script
-ADD prepare-container.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/prepare-container.sh
+ADD image/prepare-container.sh /usr/local/bin/prepare-container.sh
+ADD image/fcgiwrap-launcher /usr/local/bin/fcgiwrap-launcher
+RUN chmod +x /usr/local/bin/prepare-container.sh /usr/local/bin/fcgiwrap-launcher
 
 # SSHD config : no password, no strict mode
-ADD sshd_config /etc/ssh/sshd_config
+# Moved by prepare-container.sh
+ADD image/sshd_config /etc/sshd_config
+
+# CGIT Config
+# Copied by prepare-container.sh
+ADD image/cgitrc /etc/cgitrc.default
+
+# Caddy config
+ADD image/Caddyfile /etc/caddy/Caddyfile
 
 # Remove SSH keyes, fresh keys will be generated at container startup by prepare-container.sh
 RUN rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key
 
 # Gitolis / Gitolite
-RUN adduser -D -g "" -s "/bin/ash" git
+RUN adduser -D -g "" -s "/bin/ash" http
+RUN addgroup git www-data && addgroup git http
+RUN addgroup http www-data && addgroup http git
 # We need a password set, otherwise pubkey auth doesn't work... why ?? /sbin/nologin doesn't work either
-RUN echo "git:fhzefGG65gdoejdK$!dhd753" | chpasswd
+RUN echo "git:$(openssl rand -hex 4096)" | chpasswd
 
-# Volume for server key
+# Caddy needs CAP_NET_BIND_SERVICE
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/caddy
+
+RUN ln -s /var/lib/git/cgitrc /etc/cgitrc
+
+# SSH Keys, Config
 VOLUME ["/etc/ssh"]
+# Git Directories
+VOLUME ["/var/lib/git"]
 
-# Volume for /home/git
-VOLUME ["/home/git"]
-
-# Ports
+# CGit
 EXPOSE 80
+# SSH
 EXPOSE 22
 
-# Minimal INIT system, cf https://github.com/Yelp/dumb-init/
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.0.0/dumb-init_1.0.0_amd64 /usr/local/bin/dumb-init
-RUN chmod +x /usr/local/bin/dumb-init
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 3 && chgrp www-data /run/fcgiwrap/fcgiwrap.sock && chmod g+w /run/fcgiwrap/fcgiwrap.sock && exec sudo -u http /usr/sbin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile' & /usr/local/bin/fcgiwrap-launcher"]
 
-# Runs "/usr/bin/dumb-init -- sh -c  prepare-container.sh && exec apachectl -DFOREGROUND"
-# dumb-init gets PID 1 and handles signals gracefully
-ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["sh", "-c", "prepare-container.sh && exec httpd-foreground"]
+FROM base AS with-fmt
+RUN apk add --no-cache py3-markdown py3-docutils groff
+RUN echo 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\
+readme=:README.rst\
+readme=:readme.rst\
+readme=:README.md\
+readme=:readme.md\
+readme=:README\
+readme=:readme\
+' >> /etc/cgitrc.default
 
-# To work without dumb-init, uncomment last line in prepare-container.sh to make it usual Docker entrypoint.
-# Use following CMD statement which comes from httpd Dockerfile. 
-# Comment previous ENTRYPOINT and CMD.
-#ENTRYPOINT ["prepare-container.sh"]
-#CMD ["httpd-foreground"]
+FROM with-fmt AS with-highlighting
+RUN apk add --no-cache highlight
+ADD image/syntax-highlighting.sh /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
+RUN chmod +x /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
+RUN echo 'source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh' >> /etc/cgitrc.default

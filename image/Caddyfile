@@ -1,0 +1,26 @@
+http:// {
+  route {
+    root * /var/lib/git/static
+    file_server {
+      pass_thru
+    }
+  }
+
+  route {
+    root * /usr/share/webapps/cgit
+    file_server {
+      pass_thru
+    }
+  }
+
+  reverse_proxy unix//run/fcgiwrap/fcgiwrap.sock {
+    transport fastcgi {
+      env SCRIPT_FILENAME /usr/share/webapps/cgit/cgit.cgi
+      env PATH_INFO {http.request.uri}
+      env QUERY_STRING {query}
+      # env GIT_HTTP_EXPORT_ALL 1
+      # env GIT_PROJECT_ROOT /var/lib/git/repositories
+      # env HOME /var/lib/git
+    }
+  }
+}

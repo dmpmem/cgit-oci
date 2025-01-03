@@ -106,7 +106,7 @@ mimetype.svg=image/svg+xml
 section=my repo
 
 #repo.url=testing
-#repo.path=/home/git/testing.git
+#repo.path=/var/lib/git/testing.git
 #repo.desc=Testing repo created by Gitolite
 #repo.owner=admin@mynetwork.com
 #
@@ -114,6 +114,6 @@ section=my repo
 
 
 # Auto scan 
-scan-path=/home/git/repositories
+scan-path=/var/lib/git/repositories
 
 

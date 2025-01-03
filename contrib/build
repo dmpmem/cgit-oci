@@ -1,0 +1,6 @@
+#!/bin/zsh
+set -eax
+IMG="${IMG:-"docker.io/memdmp/cgit:${TAG:-"local-build"}"}"
+! podman container exists cgit >/dev/null 2>/dev/null || podman container rm cgit
+! podman image exists "$IMG" >/dev/null 2>/dev/null || podman image rm "$IMG"
+podman build -t "$IMG" .

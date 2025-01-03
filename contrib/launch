@@ -1,0 +1,4 @@
+#!/bin/zsh
+set -eax
+podman container exists cgit || ("$(dirname "$(realpath "$0")")/setup-img" 2>&1 | tee /tmp/setup || (grep 'First launch: container is now shut down' /tmp/setup && rm /tmp/setup))
+podman start -ia cgit

@@ -1,0 +1,15 @@
+#!/bin/zsh
+set -eax
+command="/usr/bin/fcgiwrap"
+user="fcgiwrap"
+group="www-data"
+: ${socket:="unix:/run/fcgiwrap/fcgiwrap.sock"}
+case "$socket" in
+unix:/*)
+  local socket_path="${socket#unix:}"
+  /usr/libexec/rc/bin/checkpath --directory --mode 2775 --owner "${user}:${group}" \
+    "${socket_path%/*}"
+  ;;
+esac
+
+exec sudo -u "$user" -g "$group" "$command" -c "${nproc:-$(nproc)}" -s "$socket"
