@@ -63,13 +63,13 @@ CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 3 && chgrp
 
 FROM base AS with-fmt
 RUN apk add --no-cache py3-markdown py3-docutils groff
-RUN echo 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\
-readme=:README.rst\
-readme=:readme.rst\
-readme=:README.md\
-readme=:readme.md\
-readme=:README\
-readme=:readme\
+RUN echo -e 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n\
+readme=:README.rst\n\
+readme=:readme.rst\n\
+readme=:README.md\n\
+readme=:readme.md\n\
+readme=:README\n\
+readme=:readme\n\
 ' >> /etc/cgitrc.default
 
 FROM with-fmt AS with-highlighting
