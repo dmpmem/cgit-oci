@@ -15,6 +15,7 @@ http:// {
 
   reverse_proxy unix//run/fcgiwrap/fcgiwrap.sock {
     transport fastcgi {
+      env DOCUMENT_ROOT /usr/share/webapps/cgit
       env SCRIPT_FILENAME /usr/share/webapps/cgit/cgit.cgi
       # see https://caddyserver.com/docs/json/apps/http/#docs
       # env PATH_INFO {http.request.uri.path}
