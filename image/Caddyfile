@@ -17,8 +17,8 @@ http:// {
     transport fastcgi {
       env SCRIPT_FILENAME /usr/share/webapps/cgit/cgit.cgi
       # see https://caddyserver.com/docs/json/apps/http/#docs
-      env PATH_INFO {http.request.uri.path}
-      env QUERY_STRING {http.request.uri.query}
+      # env PATH_INFO {http.request.uri.path}
+      # env QUERY_STRING {http.request.uri.query}
     }
   }
 }
