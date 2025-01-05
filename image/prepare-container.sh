@@ -14,6 +14,8 @@ ensureKeyAlgo ecdsa
 [[ -f /etc/sshd_config ]] && mv /etc/sshd_config /etc/ssh/sshd_config || [[ -f /etc/ssh/sshd_config ]]
 chmod -w /etc/ssh/sshd_config
 
+echo "$HIGHLIGHT_THEME" > /.highlight-theme
+
 # prepare run dir
 if ! [[ -d "/var/run/sshd" ]]; then
   mkdir -p /var/run/sshd
