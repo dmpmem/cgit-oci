@@ -118,4 +118,7 @@ EXTENSION="${BASENAME##*.}"
 #exec highlight --force -f -I -X -S "$EXTENSION" 2>/dev/null
 
 # This is for version 3
-exec highlight --force --inline-css -f -I -O xhtml -S "$EXTENSION" 2>/dev/null
+THEMEOPT=()
+if [[ "$HIGHLIGHT_THEME" != "" ]]; then THEMEOPT+=("--style=$HIGHLIGHT_THEME"); fi
+exec highlight --force --inline-css "${THEMEOPT[@]}" -f -I -O xhtml -S "$EXTENSION" 2>/dev/null
+
