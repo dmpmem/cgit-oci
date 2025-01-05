@@ -97,7 +97,7 @@ mimetype.js=text/javascript
 mimetype.css=text/css
 mimetype.ascii=text/vnd.ascii-art
 # text/plain is used to prevent XSS
-mimetype.html=text/plain
+mimetype.html=text/plain+nothtml
 
 
 ##
