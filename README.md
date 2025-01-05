@@ -1,4 +1,4 @@
-# cgit+caddy+gitolite on alpine in podman
+# cgit+caddy+gitolite on alpine in an oci runner
 
 this is a fork of [github.com:gregjbs/docker-gitolite-cgit](https://github.com/gregjbs/docker-gitolite-cgit), with [substantial differences to upstream](#comparison-to-upstream) ([patch](https://github.com/gregjbs/docker-gitolite-cgit/compare/main...dmpmem:cgit-oci:master))
 
@@ -23,6 +23,7 @@ here's a partial comparison to upstream:
 - we use [alpine's cgit & gitolite packages](https://github.com/gregjbs/docker-gitolite-cgit/commit/e6359a9ceb5fba89ab0d152ce6ead2da7b8afa57#diff-dd2c0eb6ea5cfc6c4bd4eac30934e2d5746747af48fef6da689e85b752f39557R14), instead of [building them ourselves](https://github.com/gregjbs/docker-gitolite-cgit/commit/e6359a9ceb5fba89ab0d152ce6ead2da7b8afa57#diff-dd2c0eb6ea5cfc6c4bd4eac30934e2d5746747af48fef6da689e85b752f39557L19-L35)
 - we have [build](https://github.com/gregjbs/docker-gitolite-cgit/commit/e6359a9ceb5fba89ab0d152ce6ead2da7b8afa57#diff-dd2c0eb6ea5cfc6c4bd4eac30934e2d5746747af48fef6da689e85b752f39557R75) [targets](https://github.com/gregjbs/docker-gitolite-cgit/commit/e6359a9ceb5fba89ab0d152ce6ead2da7b8afa57#diff-dd2c0eb6ea5cfc6c4bd4eac30934e2d5746747af48fef6da689e85b752f39557R64) for readme formatting and [syntax highlighting](https://github.com/gregjbs/docker-gitolite-cgit/commit/e6359a9ceb5fba89ab0d152ce6ead2da7b8afa57#diff-e7a55d3d8c2b36ee7595bcfad62f883d182670c60c81d9d007e864b969c9fc9d)
 - we [call it a containerfile](https://github.com/dmpmem/cgit-oci/commit/cb9c463d152c0607f2d0e2df2de043e404b7375d) because it's no longer a date between [2013](https://www.docker.com/blog/how-to-use-your-own-registry/) and [2019](https://podman.io/release/2019/01/16/podman-release-v1.0.0)
+- we [do not mention docker in the repository name](#repo-title-component)
 
 however, we:
 
