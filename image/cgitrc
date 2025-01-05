@@ -37,8 +37,8 @@ root-desc=Some information...
 # Include some more info about foobar.com on the index page
 #root-readme=/var/www/htdocs/about.html
 
-# Allow download of tar.gz, tar.bz2 and zip-files
-snapshots=tar.gz tar.bz2 zip
+# Allow download of tar.gz, tar.bz2, tar.lz and zip-files
+snapshots=tar.gz tar.bz2 tar.lz zip
 
 robots=noindex, nofollow
 enable-git-config=1

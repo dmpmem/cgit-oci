@@ -16,7 +16,8 @@ RUN apk upgrade --no-cache && \
             dumb-init \
             fcgiwrap \
             sudo zsh openrc \
-            libcap
+            libcap \
+            lzip
 
 ADD image/prepare-container.sh /usr/local/bin/prepare-container.sh
 ADD image/fcgiwrap-launcher /usr/local/bin/fcgiwrap-launcher
