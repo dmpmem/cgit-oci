@@ -92,6 +92,13 @@ mimetype.jpeg=image/jpeg
 mimetype.pdf=application/pdf
 mimetype.png=image/png
 mimetype.svg=image/svg+xml
+mimetype.ts=text/typescript
+mimetype.js=text/javascript
+mimetype.css=text/css
+mimetype.ascii=text/vnd.ascii-art
+# text/plain is used to prevent XSS
+mimetype.html=text/plain
+
 
 ##
 ## List of repositories.
