@@ -81,4 +81,7 @@ RUN (git clone https://git.estrogen.zone/zuwu.git/ /tmp/zuwu || git clone https:
     /usr/local/share/zsh/plugins/zuwu/setup.zsh && \
     sudo -u git /usr/local/share/zsh/plugins/zuwu/setup.zsh && \
     cd ~ && \
-    rm -rf /tmp/zuwu
+    rm -rf /tmp/zuwu && \
+    mkdir -p /root/.local/bin && \
+    mkdir /root/.zsh_history && \
+    touch /root/.zsh_history/default
