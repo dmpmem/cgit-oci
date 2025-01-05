@@ -48,6 +48,7 @@ RUN echo "git:$(openssl rand -hex 4096)" | chpasswd
 RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/caddy
 
 RUN ln -s /var/lib/git/cgitrc /etc/cgitrc
+RUN sudo -u git git config --global init.defaultBranch master
 
 # SSH Keys, Config
 VOLUME ["/etc/ssh"]
