@@ -85,3 +85,5 @@ RUN (git clone https://git.estrogen.zone/zuwu.git/ /tmp/zuwu || git clone https:
     mkdir -p /root/.local/bin && \
     mkdir /root/.zsh_history && \
     touch /root/.zsh_history/default
+
+# TODO: impl. automated occasional updates
