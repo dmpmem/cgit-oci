@@ -16,6 +16,8 @@ chmod -w /etc/ssh/sshd_config
 
 echo -n "$HIGHLIGHT_THEME" > /.highlight-theme
 
+[[ "$KEEP_MD5_AVATARS" == "true" ]] || sed -i s/md5/sha256/gu /usr/lib/cgit/filters/email-libravatar.lua 
+
 # prepare run dir
 if ! [[ -d "/var/run/sshd" ]]; then
   mkdir -p /var/run/sshd
