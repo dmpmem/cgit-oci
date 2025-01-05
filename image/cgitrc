@@ -40,6 +40,9 @@ root-desc=Some information...
 # Allow download of tar.gz, tar.bz2, tar.lz and zip-files
 snapshots=tar.gz tar.bz2 tar.lz zip
 
+# Show libravatar
+email-filter=lua5.4 /usr/lib/cgit/filters/email-libravatar.lua
+
 robots=noindex, nofollow
 enable-git-config=1
 #source-filter=/opt/highlight.sh
