@@ -18,7 +18,7 @@ RUN apk upgrade --no-cache && \
             sudo zsh openrc \
             libcap \
             lzip \
-	    lua5.4 lua5.4-ossl
+	    lua5.3 lua5.3-ossl
 
 ADD image/prepare-container.sh /usr/local/bin/prepare-container.sh
 ADD image/fcgiwrap-launcher /usr/local/bin/fcgiwrap-launcher
