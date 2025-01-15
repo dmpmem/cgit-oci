@@ -5,10 +5,19 @@ use pulldown_cmark::{html, Options, Parser};
 fn main() {
   let stdin = std::io::stdin();
   let mut markdown_input = format!("");
+  let mut disabled = false;
   for line in stdin.lock().lines() {
-    let line = line.unwrap();
-    if !line.contains("<!-- NO-CGIT -->") {
-      markdown_input = format!("{markdown_input}{line}\n")
+    let mut line = line.unwrap();
+    if disabled && line.contains("<!-- !END-NO-CGIT! -->") {
+      disabled = false;
+      line = line.replace("!END-NO-CGIT!", "Removed Block");
+    }
+    if !disabled {
+      if line.contains("<!-- !BEGIN-NO-CGIT! -->") {
+        disabled = true
+      } else if !line.contains("<!-- NO-CGIT -->") {
+        markdown_input = format!("{markdown_input}{line}\n")
+      }
     }
   }
 

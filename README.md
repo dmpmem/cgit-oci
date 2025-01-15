@@ -1,3 +1,9 @@
+<!-- !BEGIN-NO-CGIT! -->
+# Github is bad.
+
+You should be looking at this repository on [the upstream cgit repository](https://git.estrogen.zone/cgit-oci.git)
+<!-- !END-NO-CGIT! -->
+
 # cgit+caddy+gitolite on alpine in an oci runner
 
 this is a fork of [github.com:gregjbs/docker-gitolite-cgit](https://github.com/gregjbs/docker-gitolite-cgit), with [substantial differences to upstream](#comparison-to-upstream) ([patch](https://github.com/gregjbs/docker-gitolite-cgit/compare/main...dmpmem:cgit-oci:master))
