@@ -18,7 +18,10 @@ RUN apk upgrade --no-cache && \
     sudo zsh openrc \
     libcap \
     lzip \
-    lua5.3 lua5.3-ossl
+    lua5.3 lua5.3-ossl \
+    bat \
+    neovim
+RUN apk add py3-ansi2html --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 ADD image/prepare-container.sh /usr/local/bin/prepare-container.sh
 ADD image/fcgiwrap-launcher /usr/local/bin/fcgiwrap-launcher
