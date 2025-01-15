@@ -1,93 +1,71 @@
+#
+# cgit config
+# see https://man.archlinux.org/man/cgitrc.5
+#
+
 # Enable caching of up to 1000 output entries
 cache-size=1000
 
-# Specify some default clone prefixes
-clone-prefix=https://git.mydomain.com/git ssh://git@git.mydomain.com
+# The clone prefixes, used to show the user where to clone from
+clone-prefix=https://git.estrogen.zone ssh://git@git.estrogen.zone
 
-# Specify the css url
-css=/cgit.css
+# Use /cgit.css or https://git.estrogen.zone/cgit-assets.git/plain/cgit.css if you don't have this repo available
+css=/cgit-assets.git/plain/cgit.css
 
-# Show extra links for each repository on the index page
-enable-index-links=1
-
-# Show number of affected files per commit on the log pages
-enable-log-filecount=1
-
-# Show number of added/removed lines per commit on the log pages
-enable-log-linecount=1
-
-# Enable ASCII art commit history graph on the log pages
-enable-commit-graph=1
+# Specify your own icon's URL here
+logo=/cgit.png
 
 # Add a cgit favicon
 #favicon=/favicon.ico
 
-# Use a custom logo
-logo=/cgit.png
+# Allow http transport git clone
+enable-http-clone=1
 
-# Enable statistics per week, month and quarter
+# Use git configuration files
+enable-git-config=1
+
+# The maximum duration of the stats tab
 max-stats=month
 
-# Set the title and heading of the repository index page
-root-title=Welcome !
+# Enable the commit graph
+enable-commit-graph=1
 
-# Set a subheading for the repository index page
-root-desc=Some information...
+# Log should specify counts
+enable-log-linecount=1
+enable-log-filecount=1
 
-# Include some more info about foobar.com on the index page
+# Show extra links for each repository on the index page
+enable-index-links=1
+
+# Enable blame page and create links to it from tree page
+enable-blame=1
+
+# The title of the root
+root-title=git.estrogen.zone
+# The description rendered under it
+root-desc=uhhh idk
+
+# Include some more info about git.estrogen.zone on the index page
 #root-readme=/var/www/htdocs/about.html
 
-# Allow download of tar.gz, tar.bz2, tar.lz and zip-files
-snapshots=tar.gz tar.bz2 tar.lz zip
+# if you do not want that webcrawler (like google) index your site
+robots=index, nofollow
 
-# Show libravatar
-email-filter=lua:/usr/lib/cgit/filters/email-libravatar.lua
-
-robots=noindex, nofollow
-enable-git-config=1
-#source-filter=/opt/highlight.sh
-source-filter=/usr/local/lib/cgit/filters/syntax-highlighting.py
-
-
-##
-## Search for these files in the root of the default branch of repositories
-## for coming up with the about page:
-##
-readme=:README.md
-readme=:readme.md
-readme=:README.mkd
-readme=:readme.mkd
 readme=:README.rst
 readme=:readme.rst
-readme=:README.html
-readme=:readme.html
-readme=:README.htm
-readme=:readme.htm
-readme=:README.txt
-readme=:readme.txt
+readme=:README.md
+readme=:readme.md
 readme=:README
 readme=:readme
-readme=:INSTALL.md
-readme=:install.md
-readme=:INSTALL.mkd
-readme=:install.mkd
-readme=:INSTALL.rst
-readme=:install.rst
-readme=:INSTALL.html
-readme=:install.html
-readme=:INSTALL.htm
-readme=:install.htm
-readme=:INSTALL.txt
-readme=:install.txt
-readme=:INSTALL
-readme=:install
+#readme=:README.html
 
-about-filter=/usr/local/lib/cgit/filters/about-formatting.sh
+# if cgit messes up links, use a virtual-root. For example, cgit.example.org/ has this value:
+virtual-root=/
 
-##
-### List of common mimetypes
-###
+# Allow download of tar.gz, tar.bz2, tar.lz and zip-files
+snapshots=tar.lz tar.gz tar.bz2 zip
 
+# Specify mime types
 mimetype.git=image/git
 mimetype.html=text/html
 mimetype.jpg=image/jpeg
@@ -100,11 +78,26 @@ mimetype.js=text/javascript
 mimetype.css=text/css
 mimetype.ascii=text/vnd.ascii-art
 # text/plain is used to prevent XSS
-mimetype.html=text/plain+nothtml
+mimetype.html=text/plain
 
+# Show libravatar - assumes you're using an avatar handler that handles this properly
+email-filter=lua:/usr/lib/cgit/filters/extra/email-libravatar.lua
+# If you prefer upstream's:
+# email-filter=lua:/usr/lib/cgit/filters/email-libravatar.lua
+
+# TODO: Create commit filter
+# commit-filter=exec:/usr/lib/cgit/filters/extra/commit.sh
+
+# Handle the about pages
+about-filter=/usr/lib/cgit/filters/about-formatting.sh
+# Handle syntax highlighting
+source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh
+
+project-list=/var/lib/git/projects.list
+scan-path=/var/lib/git/repositories
 
 ##
-## List of repositories.
+## List of repositories, if you don't wish to use scanning (I RECOMMEND STRONGLY USING SCANNING!!).
 ## PS: Any repositories listed when repo.group is unset will not be
 ##     displayed under a group heading
 ## PPS: This list could be kept in a different file (e.g. '/etc/cgitrepos')
@@ -113,17 +106,10 @@ mimetype.html=text/plain+nothtml
 ##
 
 ####
-section=my repo
-
+# section=my repo
+# 
 #repo.url=testing
 #repo.path=/var/lib/git/testing.git
 #repo.desc=Testing repo created by Gitolite
 #repo.owner=admin@mynetwork.com
 #
-
-
-
-# Auto scan 
-scan-path=/var/lib/git/repositories
-
-

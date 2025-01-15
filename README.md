@@ -2,6 +2,8 @@
 
 this is a fork of [github.com:gregjbs/docker-gitolite-cgit](https://github.com/gregjbs/docker-gitolite-cgit), with [substantial differences to upstream](#comparison-to-upstream) ([patch](https://github.com/gregjbs/docker-gitolite-cgit/compare/main...dmpmem:cgit-oci:master))
 
+it is built for [git.estrogen.zone](https://git.estrogen.zone) and is focused around it.
+
 ## installation
 
 1. copy .env.example to .env

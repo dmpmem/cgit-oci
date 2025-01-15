@@ -1,3 +1,7 @@
+{
+  admin off
+}
+
 http:// {
   route {
     root * /var/lib/git/static

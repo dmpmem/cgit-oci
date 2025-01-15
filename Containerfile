@@ -5,20 +5,20 @@ WORKDIR /root
 # Funny lil packages
 RUN apk upgrade --no-cache && \
     apk add --no-cache \
-            git openssh \
-            python3 py3-pygments \
-            py3-markdown \
-            libintl musl-libintl \
-            zlib \
-            caddy \
-            cgit gitolite \
-            openssl \
-            dumb-init \
-            fcgiwrap \
-            sudo zsh openrc \
-            libcap \
-            lzip \
-	    lua5.3 lua5.3-ossl
+    git openssh \
+    python3 py3-pygments \
+    py3-markdown \
+    libintl musl-libintl \
+    zlib \
+    caddy \
+    cgit gitolite \
+    openssl \
+    dumb-init \
+    fcgiwrap \
+    sudo zsh openrc \
+    libcap \
+    lzip \
+    lua5.3 lua5.3-ossl
 
 ADD image/prepare-container.sh /usr/local/bin/prepare-container.sh
 ADD image/fcgiwrap-launcher /usr/local/bin/fcgiwrap-launcher
@@ -70,7 +70,8 @@ RUN echo -ne 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n' >> /etc/
 
 FROM with-fmt AS with-highlighting
 RUN apk add --no-cache highlight
-ADD image/syntax-highlighting.sh /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
+ADD image/filters/syntax-highlighting.sh /usr/lib/cgit/filters/extra/syntax-highlighting.sh
+ADD image/filters/email-libravatar.lua /usr/lib/cgit/filters/extra/email-libravatar.lua
 RUN chmod +x /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
 RUN echo -ne 'source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh\n' >> /etc/cgitrc.default
 

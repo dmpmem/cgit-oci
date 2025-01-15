@@ -7,6 +7,11 @@ services:
     volumes:
       - cgit_ssh:/etc/ssh:rw
       - ./cgit/repos:/var/lib/git:rw
+      - ./cgit/zshhist:/root/.zsh_history:rw
+      # Copy these directories from the container first, then uncomment to modify things:
+      # - ./cgit/caddy:/etc/caddy:ro
+      # - ./cgit/html-converters:/usr/lib/cgit/filters/html-converters:ro
+      # - ./cgit/extra-filters:/usr/lib/cgit/filters/extra:ro
     ports:
       - 127.0.0.1:18080:80
       - 127.0.0.1:12222:22
@@ -15,4 +20,3 @@ services:
 
 volumes:
   cgit_ssh:
-  cgit_repos:
