@@ -1,7 +1,7 @@
 <!-- !BEGIN-NO-CGIT! -->
 # Github is bad.
 
-You should be looking at this repository on [the upstream cgit repository](https://git.estrogen.zone/cgit-oci.git)
+You should be looking at this repository on [the upstream cgit repository](https://git.estrogen.zone/cgit-oci.git) instead.
 <!-- !END-NO-CGIT! -->
 
 # cgit+caddy+gitolite on alpine in an oci runner
