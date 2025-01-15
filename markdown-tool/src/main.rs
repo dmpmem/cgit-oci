@@ -19,8 +19,5 @@ fn main() {
   let parser = Parser::new_ext(&markdown_input, options);
   let mut html_output: String = String::with_capacity(markdown_input.len() * 3 / 2);
   html::push_html(&mut html_output, parser);
-  println!(
-    "<style>@import url(\"/assets/md.css\")</style>
-{html_output}"
-  )
+  println!("<style>@import url(\"/assets/md.css\")</style><div class=\"md\">{html_output}</div>")
 }

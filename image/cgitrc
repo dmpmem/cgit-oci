@@ -89,12 +89,12 @@ email-filter=lua:/usr/lib/cgit/filters/extra/email-libravatar.lua
 # email-filter=lua:/usr/lib/cgit/filters/email-libravatar.lua
 
 # TODO: Create commit filter
-# commit-filter=exec:/usr/lib/cgit/filters/extra/commit.sh
+commit-filter=exec:/usr/bin/markdown-tool
 
 # Handle the about pages
-about-filter=/usr/lib/cgit/filters/extra/about-formatting
+about-filter=exec:/usr/lib/cgit/filters/extra/about-formatting
 # Handle syntax highlighting
-source-filter=/usr/lib/cgit/filters/extra/syntax-highlighting.sh
+source-filter=exec:/usr/lib/cgit/filters/extra/syntax-highlighting.sh
 
 project-list=/var/lib/git/projects.list
 scan-path=/var/lib/git/repositories
