@@ -94,7 +94,7 @@ email-filter=lua:/usr/lib/cgit/filters/extra/email-libravatar.lua
 # Handle the about pages
 about-filter=/usr/lib/cgit/filters/extra/about-formatting.sh
 # Handle syntax highlighting
-source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh
+source-filter=/usr/lib/cgit/filters/extra/syntax-highlighting.sh
 
 project-list=/var/lib/git/projects.list
 scan-path=/var/lib/git/repositories
