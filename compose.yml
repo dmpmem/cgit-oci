@@ -11,7 +11,7 @@ services:
       # Copy these directories from the container first, then uncomment to modify things:
       # - ./cgit/caddy:/etc/caddy:ro
       # - ./cgit/html-converters:/usr/lib/cgit/filters/html-converters:ro
-      # - ./cgit/extra-filters:/usr/lib/cgit/filters/extra:ro
+      # - ./cgit/extra-filters:/usr/lib/cgit/filters/extra:ro # consider specifying each file rather than the whole dir!!
     ports:
       - 127.0.0.1:18080:80
       - 127.0.0.1:12222:22

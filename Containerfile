@@ -1,3 +1,10 @@
+FROM docker.io/alpine:latest AS markdown-tool
+RUN apk add --no-cache cargo
+COPY markdown-tool /md-tool
+WORKDIR /md-tool
+RUN cargo b -r
+RUN cp target/release/markdown-tool /usr/bin/markdown-tool
+
 FROM docker.io/alpine:latest AS base
 
 WORKDIR /root
@@ -69,14 +76,14 @@ CMD ["sh", "-c", "/usr/local/bin/prepare-container.sh && sh -c 'sleep 1 && chgrp
 
 FROM base AS with-fmt
 RUN apk add --no-cache py3-markdown py3-docutils groff
-RUN echo -ne 'about-filter=/usr/lib/cgit/filters/about-formatting.sh\n' >> /etc/cgitrc.default
+ADD image/filters/about-formatting /usr/lib/cgit/filters/extra/about-formatting
+COPY --from=markdown-tool /usr/bin/markdown-tool /usr/bin/markdown-tool
 
 FROM with-fmt AS with-highlighting
 RUN apk add --no-cache highlight
 ADD image/filters/syntax-highlighting.sh /usr/lib/cgit/filters/extra/syntax-highlighting.sh
 ADD image/filters/email-libravatar.lua /usr/lib/cgit/filters/extra/email-libravatar.lua
-RUN chmod +x /usr/lib/cgit/filters/syntax-highlighting-uwu.sh
-RUN echo -ne 'source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh\n' >> /etc/cgitrc.default
+RUN chmod +x /usr/lib/cgit/filters/extra/syntax-highlighting.sh
 
 FROM with-highlighting AS full
 # with nice userland aswell

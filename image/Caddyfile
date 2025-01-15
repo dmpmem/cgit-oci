@@ -17,6 +17,8 @@ http:// {
     }
   }
 
+  # you may want to handle /assets/md.css (for example doing a rewrite to /cgit-assets.git/plain/markdown.css) if you use the default markdown handler
+
   reverse_proxy unix//run/fcgiwrap/fcgiwrap.sock {
     transport fastcgi {
       env DOCUMENT_ROOT /usr/share/webapps/cgit

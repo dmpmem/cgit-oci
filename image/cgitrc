@@ -9,7 +9,7 @@ cache-size=1000
 # The clone prefixes, used to show the user where to clone from
 clone-prefix=https://git.estrogen.zone ssh://git@git.estrogen.zone
 
-# Use /cgit.css or https://git.estrogen.zone/cgit-assets.git/plain/cgit.css if you don't have this repo available
+# Use /cgit.css or https://git.estrogen.zone/cgit-assets.git/plain/cgit.css if you don't have this repo on your cgit
 css=/cgit-assets.git/plain/cgit.css
 
 # Specify your own icon's URL here
@@ -55,9 +55,12 @@ readme=:README.rst
 readme=:readme.rst
 readme=:README.md
 readme=:readme.md
+readme=:README.txt
+readme=:readme.txt
 readme=:README
 readme=:readme
 #readme=:README.html
+#readme=:readme.html
 
 # if cgit messes up links, use a virtual-root. For example, cgit.example.org/ has this value:
 virtual-root=/
@@ -89,7 +92,7 @@ email-filter=lua:/usr/lib/cgit/filters/extra/email-libravatar.lua
 # commit-filter=exec:/usr/lib/cgit/filters/extra/commit.sh
 
 # Handle the about pages
-about-filter=/usr/lib/cgit/filters/about-formatting.sh
+about-filter=/usr/lib/cgit/filters/extra/about-formatting.sh
 # Handle syntax highlighting
 source-filter=/usr/lib/cgit/filters/syntax-highlighting-uwu.sh
 
