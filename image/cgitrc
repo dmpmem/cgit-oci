@@ -92,7 +92,7 @@ email-filter=lua:/usr/lib/cgit/filters/extra/email-libravatar.lua
 # commit-filter=exec:/usr/lib/cgit/filters/extra/commit.sh
 
 # Handle the about pages
-about-filter=/usr/lib/cgit/filters/extra/about-formatting.sh
+about-filter=/usr/lib/cgit/filters/extra/about-formatting
 # Handle syntax highlighting
 source-filter=/usr/lib/cgit/filters/extra/syntax-highlighting.sh
 
