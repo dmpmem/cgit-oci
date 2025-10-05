@@ -89,7 +89,7 @@ FROM with-highlighting AS full
 # with nice userland aswell
 RUN apk add --no-cache curl zsh-fast-syntax-highlighting
 RUN sed -i 's|/bin/ash|/bin/zsh|g' /etc/passwd
-RUN (git clone https://git.estrogen.zone/zuwu.git/ /tmp/zuwu || git clone https://github.com/dmpmem/zuwu.git /tmp/zuwu) && \
+RUN (git clone https://git.estrogen.zone/zuwu.git/ /tmp/zuwu || git clone https://codeberg.org/dmpmem/zuwu.git /tmp/zuwu) && \
     cd /tmp/zuwu && \
     ./install.zsh && \
     /usr/local/share/zsh/plugins/zuwu/setup.zsh && \
